@@ -54,6 +54,63 @@ fn get_env_string(env : @cloudflare.CloudflareEnv, key : String) -> String? {
 }
 
 ///|
+fn parse_json_or_string(text : String) -> Json {
+  let parsed = try? @json.parse(text)
+  match parsed {
+    Ok(json) => json
+    Err(_) => Json::string(text)
+  }
+}
+
+///|
+fn parse_error_message(text : String) -> String {
+  if text == "" {
+    return "Unknown error"
+  }
+  let parsed = try? @json.parse(text)
+  match parsed {
+    Ok(Object(obj)) =>
+      match obj.get("message") {
+        Some(String(message)) => message
+        _ => text
+      }
+    _ => text
+  }
+}
+
+///|
+async fn send_discord_message(
+  token : String,
+  channel_id : String,
+  content : String,
+) -> Result[Json, String] {
+  let url = "\{@discord.api_base}\{@discord.route_channel_messages(channel_id)}"
+  let headers = {
+    "Authorization": "Bot \{token}",
+    "Content-Type": "application/json",
+    "User-Agent": @discord.default_user_agent,
+  }
+  let body = build_message_body(content).stringify()
+  let response = @http.fetch(
+    url,
+    method_="POST",
+    headers~,
+    body=@core.any(body),
+  ) catch {
+    err => return Err(err.to_string())
+  }
+  let response_text = response.text() catch {
+    err => return Err(err.to_string())
+  }
+  if response.ok {
+    Ok(parse_json_or_string(response_text))
+  } else {
+    let message = parse_error_message(response_text)
+    Err("discord api error (\{response.status}): \{message}")
+  }
+}
+
+///|
 pub fn get_discord_handler() -> @cloudflare.CloudflareFetchHandler {
   let async_handler = async fn(
     req : @cloudflare.CloudflareRequest,
@@ -88,11 +145,10 @@ pub fn get_discord_handler() -> @cloudflare.CloudflareFetchHandler {
     if channel_id is None {
       return response_error("missing channel_id or DISCORD_CHANNEL_ID", 400)
     }
-    let rest = @discord.new_rest_client(token=token.unwrap())
-    let api = @discord.new_api(rest)
-    let result = api.channels.create_message(
+    let result = send_discord_message(
+      token.unwrap(),
       channel_id.unwrap(),
-      build_message_body(content),
+      content,
     )
     match result {
       Ok(message) =>
@@ -100,7 +156,7 @@ pub fn get_discord_handler() -> @cloudflare.CloudflareFetchHandler {
           Json::object({ "ok": Json::boolean(true), "message": message }),
           200,
         )
-      Err(err) => response_error(err.to_string(), 500)
+      Err(err) => response_error(err, 500)
     }
   }
   @core.promisify3(async_handler)

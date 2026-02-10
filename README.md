@@ -32,7 +32,7 @@ inspect(prepared.url)
 
 ```bash
 moon build src/cfw --target js
-npx wrangler dev --config fixtures/wrangler.toml
+npx wrangler dev --config fixtures/wrangler.jsonc
 ```
 
 ハンドラのルート:

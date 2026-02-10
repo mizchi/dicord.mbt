@@ -4,6 +4,7 @@ import {
   "mizchi/js/core" as @core,
   "mizchi/js/web/http" as @http,
   "mizchi/js/web/url" as @url,
+  "moonbitlang/core/json",
 }
 
 options(

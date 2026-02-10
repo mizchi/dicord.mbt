@@ -1,9 +1,0 @@
-name = "discord-cf-mbt"
-main = "fixtures/cf-worker.js"
-compatibility_date = "2025-01-01"
-
-[vars]
-DISCORD_CHANNEL_ID = ""
-
-# DISCORD_TOKEN は secret 推奨:
-# wrangler secret put DISCORD_TOKEN

@@ -50,7 +50,7 @@ just info
 
 ```bash
 moon build src/cfw --target js
-npx wrangler dev --config fixtures/wrangler.toml
+npx wrangler dev --config fixtures/wrangler.jsonc
 ```
 
 ハンドラが持つルート:
