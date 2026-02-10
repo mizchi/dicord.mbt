@@ -1,5 +1,5 @@
 {
-  "name": "mizchi/discord-cf-mbt",
+  "name": "mizchi/discord",
   "version": "0.1.0",
   "deps": {
     "moonbitlang/async": "0.16.2",
@@ -7,7 +7,7 @@
     "mizchi/js": "0.10.11"
   },
   "readme": "README.mbt.md",
-  "repository": "https://github.com/mizchi/discord-cf-mbt",
+  "repository": "https://github.com/mizchi/discord.mbt",
   "license": "Apache-2.0",
   "keywords": [],
   "description": "Discord REST API client for Cloudflare-style bots written in MoonBit",

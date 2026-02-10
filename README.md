@@ -1,6 +1,7 @@
-# discord-cf-mbt
+# discord
 
 MoonBit implementation of the `mizchi/discord-cf` REST/API layer.
+Note: Ported, but not tested yet.
 
 ## Features
 
@@ -8,7 +9,7 @@ MoonBit implementation of the `mizchi/discord-cf` REST/API layer.
 - API modules: `channels`, `users`, `guilds`, `webhooks`, `interactions`, `voice`
 - Configurable auth mode (`Bot token`, explicit token, no auth)
 - JS target `fetch` backend
-- `mizchi/cloudflare` 連携 (`mizchi/discord-cf-mbt/cfw`)
+- `mizchi/cloudflare` integration (`mizchi/discord/cfw`)
 
 ## Example
 
@@ -28,26 +29,26 @@ inspect(prepared.url)
 
 ## Cloudflare Worker Integration
 
-`src/cfw` パッケージで `get_discord_handler` を export します。
+`src/cfw` exports `get_discord_handler`.
 
 ```bash
 moon build src/cfw --target js
 npx wrangler dev --config fixtures/wrangler.jsonc
 ```
 
-ハンドラのルート:
+Handler routes:
 
 - `GET /health`
 - `GET /discord/send?channel_id=...&content=...`
-  - `channel_id` 省略時は `DISCORD_CHANNEL_ID` を使用
+  - if `channel_id` is omitted, `DISCORD_CHANNEL_ID` is used
 
-必要な環境変数:
+Required environment variables:
 
 - `DISCORD_TOKEN` (required)
 - `DISCORD_CHANNEL_ID` (optional)
 
-`fixtures/cf-worker.js` は `target/js/release/build/cfw/cfw.js` を読み込んで
-`get_discord_handler()` を Worker の `fetch` に接続します。
+`fixtures/cf-worker.js` loads `target/js/release/build/cfw/cfw.js`
+and wires `get_discord_handler()` to Worker `fetch`.
 
 ## Development
 

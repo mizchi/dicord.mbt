@@ -21,7 +21,7 @@ pub fn resolve_channel_id(
 pub fn resolve_content(query_content : String?) -> String {
   match query_content {
     Some(content) => content
-    None => "hello from discord-cf-mbt"
+    None => "hello from discord"
   }
 }
 
@@ -125,7 +125,7 @@ pub fn get_discord_handler() -> @cloudflare.CloudflareFetchHandler {
       return response_json(
         Json::object({
           "ok": Json::boolean(true),
-          "service": Json::string("discord-cf-mbt"),
+          "service": Json::string("discord"),
         }),
         200,
       )

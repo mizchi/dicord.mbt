@@ -1,5 +1,5 @@
 import {
-  "mizchi/discord-cf-mbt" as @lib,
+  "mizchi/discord" as @lib,
   "moonbitlang/async",
 }
 

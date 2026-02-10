@@ -1,15 +1,14 @@
-# discord-cf-mbt
+# discord
 
-MoonBit で書かれた Discord REST API クライアントです。  
-`mizchi/discord-cf` の REST/API 層をベースに移植しています。
+MoonBit implementation of the `mizchi/discord-cf` REST/API layer.
 
 ## Features
 
-- Discord API v10 向け REST クライアント
-- `channels/users/guilds/webhooks/interactions/voice` API モジュール
-- `AuthMode` による認証切り替え（Bot token / 明示 token / auth なし）
-- JS target 向け `fetch` 実装
-- `mizchi/cloudflare` 連携 (`mizchi/discord-cf-mbt/cfw`)
+- Discord API v10 REST client
+- API modules: `channels`, `users`, `guilds`, `webhooks`, `interactions`, `voice`
+- Configurable auth mode (`Bot token`, explicit token, no auth)
+- JS target `fetch` backend
+- `mizchi/cloudflare` integration (`mizchi/discord/cfw`)
 
 ## Quick Start
 
@@ -19,7 +18,7 @@ test {
   let rest = new_rest_client(token="DISCORD_BOT_TOKEN")
   let api = new_api(rest)
 
-  // API 呼び出し前に request 内容を組み立て確認できる
+  // Prepare and inspect request details before calling API
   let prepared = rest.prepare_request(
     request_method_get(),
     route_channel_messages("1234567890"),
@@ -31,7 +30,7 @@ test {
     content="https://discord.com/api/v10/channels/1234567890/messages?limit=10",
   )
 
-  // モジュール構成
+  // API modules are available from new_api(rest)
   inspect(api.users.rest.options.timeout_ms, content="15000")
 }
 ```
@@ -44,25 +43,25 @@ just test
 just info
 ```
 
-## Cloudflare Worker 連携
+## Cloudflare Worker Integration
 
-`src/cfw` パッケージで `get_discord_handler` を export します。
+`src/cfw` exports `get_discord_handler`.
 
 ```bash
 moon build src/cfw --target js
 npx wrangler dev --config fixtures/wrangler.jsonc
 ```
 
-ハンドラが持つルート:
+Handler routes:
 
 - `GET /health`
 - `GET /discord/send?channel_id=...&content=...`
-  - `channel_id` が無い場合は `DISCORD_CHANNEL_ID` を利用
+  - if `channel_id` is omitted, `DISCORD_CHANNEL_ID` is used
 
-必要な環境変数:
+Required environment variables:
 
-- `DISCORD_TOKEN` (必須)
-- `DISCORD_CHANNEL_ID` (任意)
+- `DISCORD_TOKEN` (required)
+- `DISCORD_CHANNEL_ID` (optional)
 
-`fixtures/cf-worker.js` が `target/js/release/build/cfw/cfw.js` の
-`get_discord_handler()` を Worker の `fetch` に接続します。
+`fixtures/cf-worker.js` loads `target/js/release/build/cfw/cfw.js`
+and wires `get_discord_handler()` to Worker `fetch`.

@@ -1,10 +1,10 @@
 {
-  "name": "discord-cf-mbt",
+  "name": "discord",
   "main": "./cf-worker.js",
   "compatibility_date": "2025-01-01",
   "vars": {
     "DISCORD_CHANNEL_ID": ""
   }
-  // DISCORD_TOKEN は secret 推奨:
+  // DISCORD_TOKEN should be set as a secret:
   // wrangler secret put DISCORD_TOKEN
 }

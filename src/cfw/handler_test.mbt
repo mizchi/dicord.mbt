@@ -11,7 +11,7 @@ test "resolve channel id" {
 ///|
 test "resolve content" {
   inspect(resolve_content(Some("hello")), content="hello")
-  inspect(resolve_content(None), content="hello from discord-cf-mbt")
+  inspect(resolve_content(None), content="hello from discord")
 }
 
 ///|

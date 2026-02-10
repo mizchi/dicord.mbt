@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/discord-cf-mbt/cfw"
+package "mizchi/discord/cfw"
 
 import {
   "mizchi/cloudflare",

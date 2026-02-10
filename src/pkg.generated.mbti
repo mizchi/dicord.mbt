@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/discord-cf-mbt"
+package "mizchi/discord"
 
 // Values
 pub let api_base : String
