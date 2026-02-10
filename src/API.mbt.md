@@ -1,24 +1,33 @@
 # API Documentation
 
-This file contains executable doc tests using `mbt test` blocks.
+`discord-cf` を MoonBit に移植した最小 API です。
 
-## fib
+## REST Client
 
-Calculate the n-th Fibonacci number.
-
-```mbt test
-inspect(fib(0), content="1")
-inspect(fib(1), content="1")
-inspect(fib(10), content="89")
+```mbt check
+///|
+test {
+  let rest = new_rest_client(token="TOKEN")
+  let prepared = rest.prepare_request(
+    request_method_get(),
+    route_channel_messages("123"),
+    request_options(query=[("limit", "10")]),
+  )
+  inspect(
+    prepared.url,
+    content="https://discord.com/api/v10/channels/123/messages?limit=10",
+  )
+}
 ```
 
-## sum
+## API Modules
 
-Sum elements in an array with optional start index and length.
-
-```mbt test
-let data = [1, 2, 3, 4, 5]
-inspect(sum(data~), content="15")
-inspect(sum(data~, start=2), content="12")
-inspect(sum(data~, length=3), content="6")
+```mbt check
+///|
+test {
+  let api = new_api(new_rest_client())
+  inspect(route_user("@me"), content="/users/@me")
+  inspect(route_guild_role("1", "2"), content="/guilds/1/roles/2")
+  inspect(api.voice.rest.options.timeout_ms, content="15000")
+}
 ```

@@ -1,0 +1,228 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/discord-cf-mbt"
+
+// Values
+pub let api_base : String
+
+pub let api_version : String
+
+pub fn auth_mode_token(String) -> AuthMode
+
+pub let cdn_base : String
+
+pub fn default_rest_headers() -> Map[String, String]
+
+pub fn default_rest_options() -> RestOptions
+
+pub let default_timeout_ms : Int
+
+pub let default_user_agent : String
+
+pub fn encode_query(Array[(String, String)]) -> String
+
+pub fn new_api(RestClient) -> API
+
+pub fn new_rest_client(token? : String, api? : String, timeout_ms? : Int) -> RestClient
+
+pub fn request_method_get() -> RequestMethod
+
+pub fn request_options(auth_mode? : AuthMode, body? : Json, query? : Array[(String, String)], headers? : Map[String, String]) -> RequestOptions
+
+pub fn rest_options(api? : String, headers? : Map[String, String], timeout_ms? : Int) -> RestOptions
+
+pub fn route_channel(String) -> String
+
+pub fn route_channel_message(String, String) -> String
+
+pub fn route_channel_message_own_reaction(String, String, String) -> String
+
+pub fn route_channel_messages(String) -> String
+
+pub fn route_channel_typing(String) -> String
+
+pub fn route_guild(String) -> String
+
+pub fn route_guild_channels(String) -> String
+
+pub fn route_guild_member(String, String) -> String
+
+pub fn route_guild_members(String) -> String
+
+pub fn route_guild_regions(String) -> String
+
+pub fn route_guild_role(String, String) -> String
+
+pub fn route_guild_roles(String) -> String
+
+pub fn route_guild_voice_state(String, String) -> String
+
+pub fn route_interaction_callback(String, String) -> String
+
+pub fn route_user(String) -> String
+
+pub fn route_user_channels() -> String
+
+pub fn route_user_guilds() -> String
+
+pub fn route_voice_regions() -> String
+
+pub fn route_webhook(String, String) -> String
+
+pub fn route_webhook_message(String, String, String) -> String
+
+// Errors
+
+// Types and methods
+pub struct API {
+  channels : ChannelsAPI
+  interactions : InteractionsAPI
+  webhooks : WebhooksAPI
+  users : UsersAPI
+  guilds : GuildsAPI
+  voice : VoiceAPI
+}
+pub fn API::new(RestClient) -> Self
+
+pub enum AuthMode {
+  UseClientToken
+  UseToken(String)
+  SkipAuth
+}
+pub impl Eq for AuthMode
+pub impl Show for AuthMode
+
+pub struct ChannelsAPI {
+  rest : RestClient
+}
+pub async fn ChannelsAPI::create_message(Self, String, Json, auth_mode? : AuthMode) -> Result[Json, RestError]
+pub async fn ChannelsAPI::create_reaction(Self, String, String, String) -> Result[Json, RestError]
+pub async fn ChannelsAPI::delete_message(Self, String, String) -> Result[Json, RestError]
+pub async fn ChannelsAPI::delete_own_reaction(Self, String, String, String) -> Result[Json, RestError]
+pub async fn ChannelsAPI::edit_message(Self, String, String, Json, auth_mode? : AuthMode) -> Result[Json, RestError]
+pub async fn ChannelsAPI::get(Self, String) -> Result[Json, RestError]
+pub async fn ChannelsAPI::get_message(Self, String, String) -> Result[Json, RestError]
+pub async fn ChannelsAPI::get_messages(Self, String, query? : Array[(String, String)]) -> Result[Json, RestError]
+pub fn ChannelsAPI::new(RestClient) -> Self
+pub async fn ChannelsAPI::trigger_typing_indicator(Self, String) -> Result[Json, RestError]
+
+pub(all) struct FetchResponse {
+  ok : Bool
+  status : Int
+  content_type : String?
+  body : String
+}
+
+pub struct GuildsAPI {
+  rest : RestClient
+}
+pub async fn GuildsAPI::create_channel(Self, String, Json) -> Result[Json, RestError]
+pub async fn GuildsAPI::create_role(Self, String, Json) -> Result[Json, RestError]
+pub async fn GuildsAPI::delete(Self, String) -> Result[Json, RestError]
+pub async fn GuildsAPI::delete_role(Self, String, String) -> Result[Json, RestError]
+pub async fn GuildsAPI::edit(Self, String, Json) -> Result[Json, RestError]
+pub async fn GuildsAPI::edit_role(Self, String, String, Json) -> Result[Json, RestError]
+pub async fn GuildsAPI::get(Self, String) -> Result[Json, RestError]
+pub async fn GuildsAPI::get_channels(Self, String) -> Result[Json, RestError]
+pub async fn GuildsAPI::get_member(Self, String, String) -> Result[Json, RestError]
+pub async fn GuildsAPI::get_members(Self, String, query? : Array[(String, String)]) -> Result[Json, RestError]
+pub async fn GuildsAPI::get_roles(Self, String) -> Result[Json, RestError]
+pub fn GuildsAPI::new(RestClient) -> Self
+
+pub struct InteractionsAPI {
+  rest : RestClient
+}
+pub async fn InteractionsAPI::delete_followup_message(Self, String, String, String) -> Result[Json, RestError]
+pub async fn InteractionsAPI::delete_reply(Self, String, String) -> Result[Json, RestError]
+pub async fn InteractionsAPI::edit_followup_message(Self, String, String, String, Json) -> Result[Json, RestError]
+pub async fn InteractionsAPI::edit_reply(Self, String, String, Json) -> Result[Json, RestError]
+pub async fn InteractionsAPI::follow_up(Self, String, String, Json) -> Result[Json, RestError]
+pub async fn InteractionsAPI::get_followup_message(Self, String, String, String) -> Result[Json, RestError]
+pub async fn InteractionsAPI::get_original_response(Self, String, String) -> Result[Json, RestError]
+pub fn InteractionsAPI::new(RestClient) -> Self
+pub async fn InteractionsAPI::reply(Self, String, String, Json, auth_mode? : AuthMode) -> Result[Json, RestError]
+
+pub(all) struct PreparedRequest {
+  meth : RequestMethod
+  url : String
+  headers : Map[String, String]
+  body : String?
+}
+
+pub enum RequestMethod {
+  MethodGet
+  MethodPost
+  MethodPut
+  MethodPatch
+  MethodDelete
+}
+pub impl Eq for RequestMethod
+pub impl Show for RequestMethod
+
+pub struct RequestOptions {
+  auth_mode : AuthMode
+  body : Json?
+  query : Array[(String, String)]
+  headers : Map[String, String]
+}
+
+pub struct RestClient {
+  options : RestOptions
+  token : String?
+}
+pub async fn RestClient::delete(Self, String, options? : RequestOptions) -> Result[Json, RestError]
+pub async fn RestClient::get(Self, String, options? : RequestOptions) -> Result[Json, RestError]
+pub fn RestClient::new(options? : RestOptions) -> Self
+pub async fn RestClient::patch(Self, String, options? : RequestOptions) -> Result[Json, RestError]
+pub async fn RestClient::post(Self, String, options? : RequestOptions) -> Result[Json, RestError]
+pub fn RestClient::prepare_request(Self, RequestMethod, String, RequestOptions) -> PreparedRequest
+pub async fn RestClient::put(Self, String, options? : RequestOptions) -> Result[Json, RestError]
+pub async fn RestClient::request(Self, RequestMethod, String, RequestOptions) -> Result[Json, RestError]
+pub fn RestClient::with_token(Self, String) -> Self
+
+pub enum RestError {
+  Network(String)
+  ApiError(Int, String)
+  DecodeError(String)
+}
+pub impl Eq for RestError
+pub impl Show for RestError
+
+pub struct RestOptions {
+  api : String
+  headers : Map[String, String]
+  timeout_ms : Int
+}
+
+pub struct UsersAPI {
+  rest : RestClient
+}
+pub async fn UsersAPI::create_dm(Self, Json) -> Result[Json, RestError]
+pub async fn UsersAPI::edit(Self, Json) -> Result[Json, RestError]
+pub async fn UsersAPI::get(Self, String) -> Result[Json, RestError]
+pub async fn UsersAPI::get_current(Self) -> Result[Json, RestError]
+pub async fn UsersAPI::get_guilds(Self, query? : Array[(String, String)]) -> Result[Json, RestError]
+pub fn UsersAPI::new(RestClient) -> Self
+
+pub struct VoiceAPI {
+  rest : RestClient
+}
+pub async fn VoiceAPI::get_guild_voice_regions(Self, String) -> Result[Json, RestError]
+pub async fn VoiceAPI::get_voice_state(Self, String, String) -> Result[Json, RestError]
+pub async fn VoiceAPI::list_voice_regions(Self) -> Result[Json, RestError]
+pub async fn VoiceAPI::modify_current_user_voice_state(Self, String, String, options? : Json) -> Result[Json, RestError]
+pub async fn VoiceAPI::modify_user_voice_state(Self, String, String, String, options? : Json) -> Result[Json, RestError]
+pub fn VoiceAPI::new(RestClient) -> Self
+
+pub struct WebhooksAPI {
+  rest : RestClient
+}
+pub async fn WebhooksAPI::delete_message(Self, String, String, String, thread_id? : String) -> Result[Json, RestError]
+pub async fn WebhooksAPI::edit_message(Self, String, String, String, Json) -> Result[Json, RestError]
+pub async fn WebhooksAPI::execute(Self, String, String, Json, wait? : Bool, thread_id? : String) -> Result[Json, RestError]
+pub async fn WebhooksAPI::get_message(Self, String, String, String, thread_id? : String) -> Result[Json, RestError]
+pub fn WebhooksAPI::new(RestClient) -> Self
+
+// Type aliases
+
+// Traits
+

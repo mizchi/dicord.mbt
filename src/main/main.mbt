@@ -1,5 +1,6 @@
 ///|
 async fn main {
-  @async.sleep(16)
-  println(@lib.fib(10))
+  let rest = @lib.new_rest_client()
+  let _api = @lib.new_api(rest)
+  println("discord-cf-mbt")
 }

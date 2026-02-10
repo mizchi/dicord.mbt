@@ -1,65 +1,58 @@
-# MoonBit Template
+# discord-cf-mbt
 
-A minimal MoonBit project template with CI, justfile, and AI coding assistant support.
-
-## Usage
-
-Clone this repository and start coding:
-
-```bash
-git clone https://github.com/mizchi/moonbit-template my-project
-cd my-project
-```
-
-Update `moon.mod.json` with your module name:
-
-```json
-{
-  "name": "your-username/your-project",
-  ...
-}
-```
-
-## Quick Commands
-
-```bash
-just           # check + test
-just fmt       # format code
-just check     # type check
-just test      # run tests
-just test-update  # update snapshot tests
-just run       # run main
-just info      # generate type definition files
-```
-
-## Project Structure
-
-```
-my-project/
-├── moon.mod.json      # Module configuration
-├── src/
-│   ├── moon.pkg       # Package configuration
-│   ├── lib.mbt        # Library code
-│   ├── lib_test.mbt   # Tests
-│   ├── lib_bench.mbt  # Benchmarks
-│   ├── API.mbt.md     # Doc tests
-│   └── main/
-│       ├── moon.pkg
-│       └── main.mbt   # Entry point
-├── justfile           # Task runner
-└── .github/workflows/
-    └── ci.yml         # GitHub Actions CI
-```
+MoonBit implementation of the `mizchi/discord-cf` REST/API layer.
 
 ## Features
 
-- `src/` directory structure with `moon.pkg` format
-- Snapshot testing with `inspect()`
-- Doc tests in `.mbt.md` files
-- Benchmarks with `moon bench`
-- GitHub Actions CI
-- Claude Code / GitHub Copilot support (AGENTS.md)
+- Discord API v10 REST client
+- API modules: `channels`, `users`, `guilds`, `webhooks`, `interactions`, `voice`
+- Configurable auth mode (`Bot token`, explicit token, no auth)
+- JS target `fetch` backend
+- `mizchi/cloudflare` 連携 (`mizchi/discord-cf-mbt/cfw`)
 
-## License
+## Example
 
-Apache-2.0
+```moonbit
+let rest = new_rest_client(token="DISCORD_BOT_TOKEN")
+let api = new_api(rest)
+
+let prepared = rest.prepare_request(
+  request_method_get(),
+  route_channel_messages("1234567890"),
+  request_options(query=[("limit", "10")]),
+)
+
+inspect(prepared.url)
+// https://discord.com/api/v10/channels/1234567890/messages?limit=10
+```
+
+## Cloudflare Worker Integration
+
+`src/cfw` パッケージで `get_discord_handler` を export します。
+
+```bash
+moon build src/cfw --target js
+npx wrangler dev --config fixtures/wrangler.toml
+```
+
+ハンドラのルート:
+
+- `GET /health`
+- `GET /discord/send?channel_id=...&content=...`
+  - `channel_id` 省略時は `DISCORD_CHANNEL_ID` を使用
+
+必要な環境変数:
+
+- `DISCORD_TOKEN` (required)
+- `DISCORD_CHANNEL_ID` (optional)
+
+`fixtures/cf-worker.js` は `target/js/release/build/cfw/cfw.js` を読み込んで
+`get_discord_handler()` を Worker の `fetch` に接続します。
+
+## Development
+
+```bash
+just check
+just test
+just info
+```

@@ -1,10 +1,10 @@
 ///|
-test "fib benchmark" (b : @bench.T) {
-  b.bench(fn() { ignore(fib(20)) })
-}
-
-///|
-test "sum benchmark" (b : @bench.T) {
-  let data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  b.bench(fn() { ignore(sum(data~)) })
+test "encode_query benchmark" (b : @bench.T) {
+  let query = [
+    ("limit", "100"),
+    ("after", "123456789"),
+    ("before", "987654321"),
+    ("around", "55555555"),
+  ]
+  b.bench(fn() { ignore(encode_query(query)) })
 }

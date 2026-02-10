@@ -1,0 +1,12 @@
+import {
+  "mizchi/discord-cf-mbt" as @discord,
+  "mizchi/cloudflare" as @cloudflare,
+  "mizchi/js/core" as @core,
+  "mizchi/js/web/http" as @http,
+  "mizchi/js/web/url" as @url,
+}
+
+options(
+  link: { "js": { "exports": [ "get_discord_handler" ] } },
+  "supported-targets": [ "js" ],
+)

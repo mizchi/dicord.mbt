@@ -1,0 +1,26 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/discord-cf-mbt/cfw"
+
+import {
+  "mizchi/cloudflare",
+  "mizchi/js/core",
+  "mizchi/js/web/http",
+}
+
+// Values
+pub fn build_message_body(String) -> Json
+
+pub fn get_discord_handler() -> (@cloudflare.CloudflareRequest, @cloudflare.CloudflareEnv, @cloudflare.CloudflareContext) -> @core.Promise[@http.Response]
+
+pub fn resolve_channel_id(String?, String?) -> String?
+
+pub fn resolve_content(String?) -> String
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

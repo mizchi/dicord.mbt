@@ -1,20 +1,17 @@
 ///|
-test "fib" {
-  let array = [1, 2, 3, 4, 5].map(fib)
-
-  // `inspect` is used to check the output of the function
-  // Just write `inspect(value)` and execute `moon test --update`
-  // to update the expected output, and verify them afterwards
-  inspect(array, content="[1, 2, 3, 5, 8]")
+test "new_rest_client" {
+  let rest = new_rest_client(token="abc")
+  let prepared = rest.prepare_request(
+    request_method_get(),
+    "/users/@me",
+    request_options(),
+  )
+  inspect(prepared.url, content="https://discord.com/api/v10/users/@me")
+  inspect(prepared.headers.get("Authorization"), content="Some(\"Bot abc\")")
 }
 
 ///|
-test "sum" {
-  let array = [1, 2, 3, 4, 5]
-  inspect(sum(data=array), content="15")
-  inspect(sum(data=array, start=1), content="14")
-  inspect(sum(data=array, length=3), content="6")
-  let length = None
-  // Use `?` for punning
-  inspect(sum(data=array, length?), content="15")
+test "new_api" {
+  let api = new_api(new_rest_client())
+  inspect(api.channels.rest.options.api, content="https://discord.com/api/v10")
 }

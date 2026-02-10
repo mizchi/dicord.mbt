@@ -1,25 +1,19 @@
 ///|
-/// Calculate the n-th Fibonacci number.
-///
-/// ```mbt test
-/// inspect(fib(10), content="89")
-/// ```
-pub fn fib(n : Int) -> Int64 {
-  loop (n, 0L, 1L) {
-    (0, _, b) => b
-    (i, a, b) => continue (i - 1, b, a + b)
+/// Create a REST client configured for Discord API.
+pub fn new_rest_client(
+  token? : String,
+  api? : String = api_base,
+  timeout_ms? : Int = default_timeout_ms,
+) -> RestClient {
+  let rest = RestClient::new(options=rest_options(api~, timeout_ms~))
+  match token {
+    Some(token) => rest.with_token(token)
+    None => rest
   }
 }
 
 ///|
-/// data is a labelled argument without default value having type Array[Int]
-/// start is an optional labelled argument with default value 0 having type Int
-/// length is an optional labelled argument without default value having type Option[Int]
-pub fn sum(data~ : Array[Int], start? : Int = 0, length? : Int) -> Int {
-  let end = if length is Some(length) { start + length } else { data.length() }
-  for i = start, sum = 0; i < end; i = i + 1, sum = sum + data[i] {
-
-  } else {
-    sum
-  }
+/// Create grouped API modules backed by a REST client.
+pub fn new_api(rest : RestClient) -> API {
+  API::new(rest)
 }
