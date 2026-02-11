@@ -1,10 +1,10 @@
 {
   "name": "mizchi/discord",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "deps": {
-    "moonbitlang/async": "0.16.2",
-    "mizchi/cloudflare": "0.1.7",
-    "mizchi/js": "0.10.11"
+    "moonbitlang/async": "0.16.6",
+    "mizchi/cloudflare": "0.1.8",
+    "mizchi/js": "0.10.14"
   },
   "readme": "README.mbt.md",
   "repository": "https://github.com/mizchi/discord.mbt",
