@@ -1,9 +1,9 @@
 import {
-  "mizchi/discord" as @discord,
-  "mizchi/cloudflare" as @cloudflare,
-  "mizchi/js/core" as @core,
-  "mizchi/js/web/http" as @http,
-  "mizchi/js/web/url" as @url,
+  "mizchi/discord" @discord,
+  "mizchi/cloudflare" @cloudflare,
+  "mizchi/js/core" @core,
+  "mizchi/js/web/http" @http,
+  "mizchi/js/web/url" @url,
   "moonbitlang/core/json",
 }
 
