@@ -223,7 +223,7 @@ fn decode_success_response(response : FetchResponse) -> Result[Json, RestError] 
     Some(content_type) => content_type.contains("application/json")
     None => false
   }
-  if not(is_json) {
+  if !(is_json) {
     return Ok(Json::string(response.body))
   }
   let parsed = try? @json.parse(response.body)
